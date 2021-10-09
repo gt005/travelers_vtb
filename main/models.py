@@ -32,7 +32,7 @@ class BaseUser(models.Model):
 # data
 class DataUnit(models.Model):
     title = models.CharField(max_length=255, verbose_name='Заголовок')
-    title_image = models.ImageField(verbose_name='Заглавное изображение', blank=True)
+    title_image = models.ImageField(verbose_name='Заглавное изображение', blank=True, upload_to='offers_title_image')
     creator = models.ForeignKey(BaseUser, related_name='creator', verbose_name='Владелец', db_index=True, on_delete=models.SET_NULL, null=True, blank=True)
     tag = models.JSONField(db_index=True)
     category = models.ForeignKey(Category, verbose_name='Категория', on_delete=models.SET_NULL, null=True)

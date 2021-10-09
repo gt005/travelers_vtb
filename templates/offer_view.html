@@ -1,0 +1,64 @@
+{% extends "base_template.html" %}
+{% load static %}
+
+{% block title%}{{ offer.title }}{% endblock %}
+
+{% block main_content %}
+    <div class="container pt-5">
+        <div class="row">
+            <div class="col-9">
+                <div class="d-flex align-items-center">
+                    {% if offer.title_image %}
+                        <img class="pe-3" src="{{ offer.title_image.url }}" alt="" style="max-height: 150px;max-width: 150px">
+                    {% endif %}
+                    <div>
+                        <h2>
+                            {{ offer.title }}
+                        </h2>
+                        Продавец: <a href="{% url 'profile' user_id=offer.creator.id  %}">{{ offer.creator }}</a> {% if user.base_user == offer.creator %}
+                            (Вы)
+                        {% endif %}
+                    {% if offer.creator != user.base_user %}
+                        <a href="#buy_page" class="btn btn-outline-info">Купить</a>
+                    {% endif %}
+                    </div>
+                </div>
+                <h3 class="pt-3">
+                    Стоимость <strong>{{ offer.price }}₽</strong>
+                </h3>
+
+
+                <h3 class="pt-3">
+                    Описание
+                </h3>
+                <p>
+                    {{ offer.description }}
+                </p>
+                {% if offer.document %}
+                    <h3 class="pt-3">
+                        Приложенные файлы
+                    </h3>
+                    <p>
+                        {{ offer.document }} (Просмотр после покупки)
+                    </p>
+                {% endif %}
+
+            </div>
+            <div class="col-3 bg-light">
+                <h3>Категория</h3>
+                <a href="#"> {{ offer.category }}</a>
+                <h3>Теги</h3>
+                <div>
+                    {% for tag in offer.tag.tags_list %}
+                        <a href="#">{{ tag }}</a><br>
+                    {% endfor %}
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+{% endblock %}

@@ -2,17 +2,30 @@ from django.views.generic import ListView, TemplateView, View, DetailView
 from django.views.generic.edit import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect
+from django.core.exceptions import ObjectDoesNotExist
 
-from .models import DataUnit, BaseUser
+from .models import DataUnit, BaseUser, Category
 
 
 class MainView(ListView):
     template_name = 'index.html'
     model = DataUnit
-    context_object_name = 'data_units'
+
+    def get_context_data(self, **kwargs):
+        context = super(MainView, self).get_context_data(**kwargs)
+        context['category_list'] = Category.objects.all()
+        context['offers_list'] = DataUnit.objects.all()
+        if self.request.GET.get('category'):
+            context['selected_category'] = self.request.GET.get('category')
+            context['offers_list'] = filter(
+                lambda offer: offer.category.category_title == context['selected_category'],
+                context['offers_list'],
+
+            )
+        return context
 
 
 class LoginView(TemplateView):
@@ -82,16 +95,40 @@ class RegistrationView(TemplateView):
         return redirect('main_page')
 
 
-class ProfileView(TemplateView):
+class ProfileView(DetailView, LoginRequiredMixin):
     template_name = 'profile.html'
+    model = BaseUser
+    context_object_name = 'user_profile_obj'
+    login_url = '/login/'
+
+    def get_object(self, *args, **kwargs):
+        try:
+            return self.model.objects.get(
+                id=int(self.kwargs['user_id'])
+            )
+        except (ValueError, ObjectDoesNotExist):
+            raise Http404('Такого пользователя не существует')
 
 
 class CreateDataUnitView(CreateView, LoginRequiredMixin):
     model = DataUnit
     template_name = 'data_unit_create_view.html'
     context_object_name = 'data_unit'
-    fields = []
+    login_url = '/login/'
+    fields = ['title', 'title_image', 'tag']
 
 
+class OfferView(LoginRequiredMixin, DetailView):
+    model = DataUnit
+    login_url = '/login/'
+    template_name = 'offer_view.html'
+    context_object_name = 'offer'
 
+    def get_object(self, *args, **kwargs):
+        try:
+            return self.model.objects.get(
+                id=int(self.kwargs['offer_id'])
+            )
+        except (ValueError, ObjectDoesNotExist):
+            raise Http404('Такого объявления не существует')
 

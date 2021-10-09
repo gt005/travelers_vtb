@@ -40,12 +40,16 @@
               </li>
 
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{% url 'profile' %}">{{ user.last_name }} {{ user.first_name }}</a>
+                <a class="nav-link active" aria-current="page" href="{% url 'profile' user_id=user.base_user.id %}">{{ user.last_name }} {{ user.first_name }}</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="{% url 'logout' %}">Выйти</a>
               </li>
           {% endif %}
+          <form class="d-flex ms-5">
+            <input class="form-control me-2" type="search" placeholder="Поиск" aria-label="Поиск">
+            <button class="btn btn-outline-info" type="submit">Искать</button>
+          </form>
       </ul>
     </div>
   </div>
