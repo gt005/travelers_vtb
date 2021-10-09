@@ -1,0 +1,12 @@
+{% extends "base_template.html" %}
+{% load static %}
+
+{% block title%}Создать {% endblock %}
+
+{% block main_content %}
+<form method="post" enctype="multipart/form-data" class="form">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Добавить">
+</form>
+{% endblock %}

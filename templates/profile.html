@@ -1,0 +1,16 @@
+{% extends "base_template.html" %}
+{% load static %}
+
+{% block title%}Профиль{% endblock %}
+
+{% block main_content %}
+    last_name: {{ user.last_name }}<br>
+    first_name: {{ user.first_name }} <br>
+    email: {{ user.email }} <br>
+    username: {{ user.username }} <br>
+
+    Список созданных объявлений: {{ user.base_user.creator.all }}
+
+
+
+{% endblock %}
