@@ -9,13 +9,27 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from .models import DataUnit, BaseUser, Category
 
+from random import shuffle
 
-class MainView(ListView):
+
+class MainView(TemplateView):
     template_name = 'index.html'
-    model = DataUnit
 
     def get_context_data(self, **kwargs):
         context = super(MainView, self).get_context_data(**kwargs)
+
+        context['category_sample'] = list(Category.objects.all())
+        shuffle(context['category_sample'])
+        context['category_sample'] = context['category_sample'][:5]
+        return context
+
+
+class OffersListView(ListView):
+    template_name = 'offers_list.html'
+    model = DataUnit
+
+    def get_context_data(self, **kwargs):
+        context = super(OffersListView, self).get_context_data(**kwargs)
         context['category_list'] = Category.objects.all()
         context['offers_list'] = DataUnit.objects.all()
         if self.request.GET.get('category'):

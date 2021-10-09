@@ -1,0 +1,47 @@
+{% extends "base_template.html" %}
+{% load static %}
+
+{% block title%}Список объявлений{% endblock %}
+
+{% block main_content %}
+    <div class="container pt-5">
+        <div class="row pb-3">
+            <div class="col-12">
+                <h2 class="pb-3">Список объявлений {% if selected_category %}
+                    по категории {{ selected_category }}
+                {% endif %} </h2>
+                <div class="d-flex flex-wrap">
+                    {% for category in category_list %}
+                        {% if selected_category == category.category_title %}
+                            <a href="/?category=" class="btn btn-info m-2">{{ category }}</a>
+                        {% else %}
+                            <a href="/?category={{ category }}" class="btn btn-outline-info m-2">{{ category }}</a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <ul style="list-style: none;padding: 0;">
+                    {% for offer in offers_list %}
+                        <li class="bg-light mb-3" style="cursor: pointer; padding: 15px;border-radius: 13px" onclick="location.href='{% url 'offer_view' offer_id=offer.id %}'">
+                            <h5>{{ offer.title }}</h5>
+                            {% if user.base_user == offer.creator %}
+                                <p>Продавец: Вы</p>
+                            {% else %}
+                                <p>Продавец: {{ offer.creator }}</p>
+                            {% endif %}
+                            <p>Категория: {{ offer.category }}</p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}

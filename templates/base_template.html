@@ -14,18 +14,18 @@
 <body>
 
 <header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light">
   <div class="container">
-    <a class="navbar-brand" href="{% url 'main_page' %}">
-        <img src="{% static "img/vtb_logo.svg" %}" alt="Втб">
-    </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
+    <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarNav">
+        <a class="navbar-brand" style="width: 33%" href="{% url 'main_page' %}">
+            <img src="{% static "img/platforma logo.png" %}" height="50" alt="Втб">
+        </a>
+        <ul class="navbar-nav" style="width: 33%">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{% url 'main_page' %}">Главная</a>
+          <a class="nav-link active" aria-current="page" href="{% url 'offers' %}">Объявления</a>
         </li>
           {% if not user.is_authenticated %}
 
@@ -40,17 +40,13 @@
               </li>
 
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{% url 'profile' user_id=user.base_user.id %}">{{ user.last_name }} {{ user.first_name }}</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{% url 'logout' %}">Выйти</a>
+                <a class="nav-link active" aria-current="page" href="{% url 'profile' user_id=user.base_user.id %}">Профиль</a>
               </li>
           {% endif %}
-          <form class="d-flex ms-5">
-            <input class="form-control me-2" type="search" placeholder="Поиск" aria-label="Поиск">
-            <button class="btn btn-outline-info" type="submit">Искать</button>
-          </form>
       </ul>
+        <div class="header__search_icon text-end" style="width: 33%">
+            <a href="#search"><img src="{% static 'img/search_orange.svg' %}" alt=""></a>
+        </div>
     </div>
   </div>
 </nav>
