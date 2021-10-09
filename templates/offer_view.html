@@ -6,7 +6,7 @@
 {% block main_content %}
     <div class="container pt-5">
         <div class="row">
-            <div class="col-9">
+            <div class="col-12 col-md-9 order-md-1 order-2">
                 <div class="d-flex align-items-center">
                     {% if offer.title_image %}
                         <img class="pe-3" src="{{ offer.title_image.url }}" alt="" style="max-height: 150px;max-width: 150px">
@@ -18,13 +18,13 @@
                         Продавец: <a href="{% url 'profile' user_id=offer.creator.id  %}">{{ offer.creator }}</a> {% if user.base_user == offer.creator %}
                             (Вы)
                         {% endif %}
-                    {% if offer.creator != user.base_user %}
-                        <a href="#buy_page" class="btn btn-outline-info">Купить</a>
-                    {% endif %}
                     </div>
                 </div>
                 <h3 class="pt-3">
                     Стоимость <strong>{{ offer.price }}₽</strong>
+                    {% if offer.creator != user.base_user %}
+                        <a href="#buy_page" class="offer_buy_btn">Купить</a>
+                    {% endif %}
                 </h3>
 
 
@@ -50,9 +50,9 @@
                 {% endif %}
 
             </div>
-            <div class="col-3 bg-light">
+            <div class="col-12 col-md-3 offer_view__tags_nav order-md-2 order-1">
                 <h3>Категория</h3>
-                <a href="#"> {{ offer.category }}</a>
+                <a href="{% url 'offers' %}?category={{ offer.category }}"> {{ offer.category }}</a>
                 <h3>Теги</h3>
                 <div>
                     {% for tag in offer.tag.tags_list %}

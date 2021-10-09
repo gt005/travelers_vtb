@@ -12,4 +12,19 @@ header .navbar {
   height: 25px;
 }
 
+.offer_view__tags_nav {
+  box-shadow: 0 0 20px -1px #d1d1da;
+  border-radius: 15px;
+  padding: 15px;
+  margin-bottom: 50px;
+}
+
+.offer_buy_btn {
+  color: #ff2000;
+  text-decoration: none;
+}
+.offer_buy_btn:hover {
+  color: #ff2000;
+}
+
 /*# sourceMappingURL=style.css.map */

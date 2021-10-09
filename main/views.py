@@ -11,6 +11,8 @@ from .models import DataUnit, BaseUser, Category
 
 from random import shuffle
 
+from .forms import DataUnitCreateForm
+
 
 class MainView(TemplateView):
     template_name = 'index.html'
@@ -129,7 +131,26 @@ class CreateDataUnitView(CreateView, LoginRequiredMixin):
     template_name = 'data_unit_create_view.html'
     context_object_name = 'data_unit'
     login_url = '/login/'
-    fields = ['title', 'title_image', 'tag']
+    form_class = DataUnitCreateForm
+
+    def post(self, request, *args, **kwargs):
+        new_offer = DataUnit(
+            title=request.POST.get('title'),
+            title_image=request.FILES.get('title_image'),
+            creator=request.user.base_user,
+            tag={
+                'tags_list': request.POST.get('tag').split()
+            },
+            category=Category.objects.get(id=request.POST.get('category')),
+            description=request.POST.get('description'),
+            price=request.POST.get('price'),
+            document1=request.POST.get('document1'),
+            document2=request.POST.get('document2'),
+            document3=request.POST.get('document3'),
+            archivated=False,
+        )
+        new_offer.save()
+        return redirect('/profile/' + str(user.base_user.id))
 
 
 class OfferView(LoginRequiredMixin, DetailView):

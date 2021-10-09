@@ -1,12 +1,23 @@
 {% extends "base_template.html" %}
 {% load static %}
+{% load django_bootstrap5 %}
 
 {% block title%}Создать {% endblock %}
 
 {% block main_content %}
-<form method="post" enctype="multipart/form-data" class="form">
-    {% csrf_token %}
-    {{ form }}
-    <input type="submit" value="Добавить">
-</form>
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-12">
+                <h1>Создать объявление</h1>
+
+                <form method="post" enctype="multipart/form-data" class="form">
+                    {% csrf_token %}
+                    {% bootstrap_form form %}
+                    {% bootstrap_button button_type="submit" content="Добавить" %}
+                </form>
+            </div>
+        </div>
+    </div>
+
+
 {% endblock %}

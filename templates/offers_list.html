@@ -13,9 +13,9 @@
                 <div class="d-flex flex-wrap">
                     {% for category in category_list %}
                         {% if selected_category == category.category_title %}
-                            <a href="/?category=" class="btn btn-info m-2">{{ category }}</a>
+                            <a href="{% url 'offers' %}?category=" class="btn btn-info m-2">{{ category }}</a>
                         {% else %}
-                            <a href="/?category={{ category }}" class="btn btn-outline-info m-2">{{ category }}</a>
+                            <a href="{% url 'offers' %}?category={{ category }}" class="btn btn-outline-info m-2">{{ category }}</a>
                         {% endif %}
                     {% endfor %}
                 </div>
@@ -36,6 +36,8 @@
                             {% endif %}
                             <p>Категория: {{ offer.category }}</p>
                         </li>
+                    {% empty %}
+                        <h3>По категории "{{ selected_category }}" ничего не найдено</h3>
                     {% endfor %}
                 </ul>
             </div>
